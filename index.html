@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cluedo Detective Notebook</title>
+  <title>Buku Catatan Detektif Cluedo</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
-    /* Custom Scrollbar */
+    /* Kustomisasi Scrollbar */
     ::-webkit-scrollbar {
       width: 6px;
       height: 6px;
@@ -29,7 +29,7 @@
 <body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 min-h-screen transition-colors duration-200">
 
   <div class="max-w-md mx-auto p-4 pb-24">
-    <!-- Header -->
+    <!-- Kepala Halaman / Header -->
     <header class="flex justify-between items-center mb-6">
       <div class="flex items-center space-x-2">
         <div class="bg-red-600 text-white p-2 rounded-lg shadow-md">
@@ -37,131 +37,131 @@
         </div>
         <div>
           <h1 class="text-xl font-extrabold tracking-wider text-red-600 dark:text-red-500">CLUEDO</h1>
-          <p class="text-xs text-slate-500 dark:text-slate-400 font-medium">Detective Notebook</p>
+          <p class="text-xs text-slate-500 dark:text-slate-400 font-medium">Catatan Detektif</p>
         </div>
       </div>
       
       <div class="flex space-x-2">
-        <!-- Dark Mode Toggle -->
+        <!-- Tombol Ubah Tema Mode Gelap -->
         <button id="themeToggle" class="p-2 rounded-lg bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 transition">
           <i id="themeIcon" data-lucide="moon" class="w-5 h-5 text-slate-600 dark:text-slate-300"></i>
         </button>
-        <!-- Reset Button -->
-        <button id="resetBtn" class="p-2 rounded-lg bg-red-50 dark:bg-red-950/30 text-red-600 dark:text-red-400 shadow-sm border border-red-200 dark:border-red-900/50 hover:bg-red-100 transition" title="Reset All Data">
+        <!-- Tombol Atur Ulang Data (Reset) -->
+        <button id="resetBtn" class="p-2 rounded-lg bg-red-50 dark:bg-red-950/30 text-red-600 dark:text-red-400 shadow-sm border border-red-200 dark:border-red-900/50 hover:bg-red-100 transition" title="Atur Ulang Catatan">
           <i data-lucide="rotate-ccw" class="w-5 h-5"></i>
         </button>
       </div>
     </header>
 
-    <!-- Opponents Info & Setup -->
+    <!-- Bagian Pengaturan & Daftar Pemain -->
     <section class="bg-white dark:bg-slate-800 rounded-xl p-4 shadow-sm border border-slate-200 dark:border-slate-700 mb-6">
       <div class="flex justify-between items-center mb-3">
-        <h2 class="text-sm font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Opponents</h2>
-        <span id="playerCountLabel" class="text-xs bg-slate-100 dark:bg-slate-700 px-2 py-0.5 rounded-full font-semibold">3 Players</span>
+        <h2 class="text-sm font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Daftar Pemain</h2>
+        <span id="playerCountLabel" class="text-xs bg-slate-100 dark:bg-slate-700 px-2 py-0.5 rounded-full font-semibold">4 Pemain</span>
       </div>
       
-      <!-- Add Player Input -->
+      <!-- Formulir Input Tambah Pemain -->
       <div class="flex space-x-2 mb-3">
-        <input type="text" id="playerNameInput" placeholder="Add opponent name..." class="flex-1 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 transition">
+        <input type="text" id="playerNameInput" placeholder="Ketik nama pemain baru..." class="flex-1 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 transition text-slate-800 dark:text-slate-150">
         <button id="addPlayerBtn" class="bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-lg text-sm font-bold flex items-center justify-center transition">
           <i data-lucide="user-plus" class="w-4 h-4"></i>
         </button>
       </div>
 
-      <!-- Players List -->
+      <!-- Wadah Daftar Pemain Dinamis -->
       <div id="playersList" class="flex flex-wrap gap-1.5 max-h-24 overflow-y-auto p-1">
-        <!-- Rendered dynamically -->
+        <!-- Dirender secara dinamis oleh JavaScript -->
       </div>
     </section>
 
-    <!-- Quick Help Legend -->
+    <!-- Legenda Simbol Ketuk -->
     <div class="flex justify-between items-center bg-slate-100 dark:bg-slate-800/50 rounded-lg p-2.5 mb-6 text-xs text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-800">
-      <span class="font-semibold">Tap Cycle:</span>
+      <span class="font-semibold">Siklus Ketuk:</span>
       <div class="flex space-x-3">
-        <span class="flex items-center"><span class="w-3.5 h-3.5 rounded-full border border-slate-300 dark:border-slate-600 mr-1 flex items-center justify-center bg-white dark:bg-slate-800 text-[10px]">-</span> Empty</span>
-        <span class="flex items-center"><span class="w-3.5 h-3.5 rounded-full bg-red-100 dark:bg-red-950/50 border border-red-300 text-red-600 dark:text-red-400 mr-1 flex items-center justify-center text-[10px] font-bold">X</span> Exclude</span>
-        <span class="flex items-center"><span class="w-3.5 h-3.5 rounded-full bg-green-100 dark:bg-green-950/50 border border-green-300 text-green-600 dark:text-green-400 mr-1 flex items-center justify-center text-[10px] font-bold">✓</span> Has Card</span>
-        <span class="flex items-center"><span class="w-3.5 h-3.5 rounded-full bg-amber-100 dark:bg-amber-950/50 border border-amber-300 text-amber-600 dark:text-amber-400 mr-1 flex items-center justify-center text-[10px] font-bold">?</span> Unsure</span>
+        <span class="flex items-center"><span class="w-3.5 h-3.5 rounded-full border border-slate-300 dark:border-slate-600 mr-1 flex items-center justify-center bg-white dark:bg-slate-800 text-[10px]">-</span> Kosong</span>
+        <span class="flex items-center"><span class="w-3.5 h-3.5 rounded-full bg-red-100 dark:bg-red-950/50 border border-red-300 text-red-600 dark:text-red-400 mr-1 flex items-center justify-center text-[10px] font-bold">X</span> Eliminasi</span>
+        <span class="flex items-center"><span class="w-3.5 h-3.5 rounded-full bg-green-100 dark:bg-green-950/50 border border-green-300 text-green-600 dark:text-green-400 mr-1 flex items-center justify-center text-[10px] font-bold">✓</span> Ada</span>
+        <span class="flex items-center"><span class="w-3.5 h-3.5 rounded-full bg-amber-100 dark:bg-amber-950/50 border border-amber-300 text-amber-600 dark:text-amber-400 mr-1 flex items-center justify-center text-[10px] font-bold">?</span> Ragu</span>
       </div>
     </div>
 
-    <!-- MAIN SHEETS CATEGORIES -->
-    <div class="space-y-6">
+    <!-- LEMBAR DATA UTAMA (Tersangka, Senjata, Ruangan) -->
+    <div class="space-y-6" id="sheetContent">
       
-      <!-- 1. SUSPECTS -->
+      <!-- 1. TERSANGKA (SUSPECTS) -->
       <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-md border border-slate-200 dark:border-slate-700 overflow-hidden">
         <div class="bg-gradient-to-r from-red-600 to-red-700 dark:from-red-900/60 dark:to-red-850/60 px-4 py-3 text-white flex justify-between items-center">
           <div class="flex items-center space-x-2">
             <i data-lucide="users" class="w-5 h-5"></i>
-            <h3 class="font-bold tracking-wide">Suspects</h3>
+            <h3 class="font-bold tracking-wide">Tersangka</h3>
           </div>
-          <span class="text-xs bg-black/20 px-2 py-0.5 rounded-full font-mono">6 Cards</span>
+          <span class="text-xs bg-black/20 px-2 py-0.5 rounded-full font-mono">6 Kartu</span>
         </div>
         <div class="divide-y divide-slate-100 dark:divide-slate-700/50" id="suspectsList">
-          <!-- Rendered dynamically -->
+          <!-- Dirender secara dinamis -->
         </div>
       </div>
 
-      <!-- 2. WEAPONS -->
+      <!-- 2. SENJATA (WEAPONS) -->
       <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-md border border-slate-200 dark:border-slate-700 overflow-hidden">
         <div class="bg-gradient-to-r from-amber-600 to-amber-700 dark:from-amber-900/60 dark:to-amber-850/60 px-4 py-3 text-white flex justify-between items-center">
           <div class="flex items-center space-x-2">
             <i data-lucide="shield-alert" class="w-5 h-5"></i>
-            <h3 class="font-bold tracking-wide">Weapons</h3>
+            <h3 class="font-bold tracking-wide">Senjata</h3>
           </div>
           <span class="text-xs bg-black/20 px-2 py-0.5 rounded-full font-mono">6 Cards</span>
         </div>
         <div class="divide-y divide-slate-100 dark:divide-slate-700/50" id="weaponsList">
-          <!-- Rendered dynamically -->
+          <!-- Dirender secara dinamis -->
         </div>
       </div>
 
-      <!-- 3. ROOMS -->
+      <!-- 3. RUANGAN (ROOMS) -->
       <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-md border border-slate-200 dark:border-slate-700 overflow-hidden">
         <div class="bg-gradient-to-r from-blue-600 to-blue-700 dark:from-blue-900/60 dark:to-blue-850/60 px-4 py-3 text-white flex justify-between items-center">
           <div class="flex items-center space-x-2">
             <i data-lucide="map-pin" class="w-5 h-5"></i>
-            <h3 class="font-bold tracking-wide">Rooms</h3>
+            <h3 class="font-bold tracking-wide">Ruangan</h3>
           </div>
           <span class="text-xs bg-black/20 px-2 py-0.5 rounded-full font-mono">9 Cards</span>
         </div>
         <div class="divide-y divide-slate-100 dark:divide-slate-700/50" id="roomsList">
-          <!-- Rendered dynamically -->
+          <!-- Dirender secara dinamis -->
         </div>
       </div>
 
     </div>
 
-    <!-- Case Notes Log -->
+    <!-- Bagian Log Penyelidikan & Catatan Bebas -->
     <section class="mt-6 bg-white dark:bg-slate-800 rounded-xl p-4 shadow-sm border border-slate-200 dark:border-slate-700">
       <h2 class="text-sm font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-3 flex items-center">
-        <i data-lucide="file-text" class="w-4 h-4 mr-1.5 text-red-500"></i> Investigation Log & Notes
+        <i data-lucide="file-text" class="w-4 h-4 mr-1.5 text-red-500"></i> Log Penyelidikan & Catatan
       </h2>
-      <textarea id="caseNotes" rows="4" placeholder="Write down special clues here (e.g. 'Player A showed Kitchen to Player B during inquiry'...)" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 transition text-slate-800 dark:text-slate-100"></textarea>
+      <textarea id="caseNotes" rows="4" placeholder="Tulis petunjuk khusus di sini (misal: 'Pemain A menunjukkan ruangan Kitchen ke Pemain B'...)" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 transition text-slate-800 dark:text-slate-100"></textarea>
     </section>
   </div>
 
-  <!-- BOTTOM BAR: CURRENT DEDUCTION -->
+  <!-- BAR BAWAH: RINGKASAN DUGAAN KASUS -->
   <div class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 py-3 px-4 shadow-xl z-50">
     <div class="flex justify-between items-center">
       <div class="min-w-0 pr-2">
-        <p class="text-[10px] text-slate-400 dark:text-slate-500 uppercase tracking-wider font-bold">Current Case Deduction</p>
-        <p id="accusationSummary" class="text-sm font-bold text-red-600 dark:text-red-400 truncate max-w-[280px]">Not enough clues yet...</p>
+        <p class="text-[10px] text-slate-400 dark:text-slate-500 uppercase tracking-wider font-bold">Dugaan Kasus Saat Ini</p>
+        <p id="accusationSummary" class="text-sm font-bold text-red-600 dark:text-red-400 truncate max-w-[280px]">Belum cukup bukti...</p>
       </div>
       <button id="showAccuseBtn" class="bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-600 text-white font-bold text-xs uppercase px-4 py-2.5 rounded-xl shadow-lg transition flex items-center space-x-1.5 shrink-0">
         <i data-lucide="gavel" class="w-4 h-4"></i>
-        <span>Accuse</span>
+        <span>Tuduh</span>
       </button>
     </div>
   </div>
 
-  <!-- ACCUSATION MODAL -->
+  <!-- MODAL TUDUHAN AKHIR (ACCUSATION MODAL) -->
   <div id="accuseModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
     <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-slate-200 dark:border-slate-700 transition duration-300 scale-95 transform">
       <div class="flex items-center justify-between mb-4">
         <div class="flex items-center space-x-2 text-red-600 dark:text-red-400">
           <i data-lucide="gavel" class="w-5 h-5"></i>
-          <h3 class="font-extrabold text-lg">Final Case Accusation</h3>
+          <h3 class="font-extrabold text-lg">Tuduhan Kasus Akhir</h3>
         </div>
         <button id="closeModalBtn" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
           <i data-lucide="x" class="w-5 h-5"></i>
@@ -169,69 +169,69 @@
       </div>
       
       <p class="text-xs text-slate-500 dark:text-slate-400 mb-4 leading-relaxed">
-        Based on your current eliminations, these are the unexcluded elements remaining in the envelope:
+        Berdasarkan hasil eliminasi dari lembar catatan Anda, inilah satu-satunya kartu misteri yang tersisa di dalam amplop:
       </p>
 
       <div class="bg-slate-50 dark:bg-slate-900 rounded-xl p-4 border border-slate-100 dark:border-slate-800 space-y-3 mb-6">
         <div>
-          <span class="text-[10px] text-slate-400 uppercase tracking-wider font-bold">Suspect</span>
-          <p id="suspectAccuse" class="font-bold text-slate-800 dark:text-slate-100 text-base">Unsolved...</p>
+          <span class="text-[10px] text-slate-400 uppercase tracking-wider font-bold">Tersangka Utama</span>
+          <p id="suspectAccuse" class="font-bold text-slate-800 dark:text-slate-100 text-base">Belum Terpecahkan...</p>
         </div>
         <hr class="border-slate-200 dark:border-slate-800">
         <div>
-          <span class="text-[10px] text-slate-400 uppercase tracking-wider font-bold">Weapon</span>
-          <p id="weaponAccuse" class="font-bold text-slate-800 dark:text-slate-100 text-base">Unsolved...</p>
+          <span class="text-[10px] text-slate-400 uppercase tracking-wider font-bold">Senjata Kejahatan</span>
+          <p id="weaponAccuse" class="font-bold text-slate-800 dark:text-slate-100 text-base">Belum Terpecahkan...</p>
         </div>
         <hr class="border-slate-200 dark:border-slate-800">
         <div>
-          <span class="text-[10px] text-slate-400 uppercase tracking-wider font-bold">Room (Crime Scene)</span>
-          <p id="roomAccuse" class="font-bold text-slate-800 dark:text-slate-100 text-base">Unsolved...</p>
+          <span class="text-[10px] text-slate-400 uppercase tracking-wider font-bold">Tempat Kejadian Perkara</span>
+          <p id="roomAccuse" class="font-bold text-slate-800 dark:text-slate-100 text-base">Belum Terpecahkan...</p>
         </div>
       </div>
 
       <div class="flex space-x-3">
         <button id="closeModalBtn2" class="flex-1 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-slate-700 dark:text-slate-200 font-bold py-2.5 rounded-xl text-sm transition">
-          Resume Search
+          Lanjut Selidiki
         </button>
         <button id="confirmAccuseBtn" class="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-2.5 rounded-xl text-sm transition shadow-md shadow-red-600/20">
-          I'm Sure!
+          Saya Yakin!
         </button>
       </div>
     </div>
   </div>
 
-  <!-- CUSTOM CONFIRM MODAL (Replacing standard browser confirms) -->
+  <!-- DIALOG KONFIRMASI KUSTOM (MENGGANTIKAN WINDOW.CONFIRM BROWSER) -->
   <div id="confirmModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
     <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-slate-200 dark:border-slate-700 transition duration-300 scale-95 transform">
       <div class="flex items-center space-x-2 text-amber-500 mb-3">
         <i data-lucide="alert-triangle" class="w-6 h-6"></i>
-        <h3 class="font-extrabold text-lg">Are you sure?</h3>
+        <h3 class="font-extrabold text-lg">Apakah Anda yakin?</h3>
       </div>
       <p id="confirmMessage" class="text-sm text-slate-500 dark:text-slate-400 mb-6 leading-relaxed">
-        This action will wipe all your detective sheet records and start a new investigation.
+        Tindakan ini akan menghapus semua progres penyelidikan Anda dan memulai lembar detektif baru.
       </p>
       <div class="flex space-x-3">
         <button id="cancelConfirmBtn" class="flex-1 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-slate-700 dark:text-slate-200 font-bold py-2.5 rounded-xl text-sm transition">
-          No, Cancel
+          Batal
         </button>
         <button id="okConfirmBtn" class="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-2.5 rounded-xl text-sm transition shadow-md">
-          Yes, Reset
+          Ya, Bersihkan
         </button>
       </div>
     </div>
   </div>
 
-  <!-- Custom Alert Notification Box (replaces browser alerts) -->
+  <!-- Kotak Notifikasi Kustom -->
   <div id="customAlert" class="fixed top-4 left-1/2 -translate-x-1/2 bg-slate-900/90 dark:bg-white/95 text-white dark:text-slate-900 px-4 py-3 rounded-xl shadow-2xl flex items-center space-x-2 z-50 transition-all duration-300 opacity-0 pointer-events-none scale-90">
     <i data-lucide="info" class="w-5 h-5 text-red-500 dark:text-red-600"></i>
-    <span id="alertMessage" class="text-xs font-bold">Notification</span>
+    <span id="alertMessage" class="text-xs font-bold">Pesan Notifikasi</span>
   </div>
 
   <script>
-    // --- CONSTANTS & INITIAL DATA ---
-    const APP_VERSION = 'v1.1';
+    // --- DATA KARTU CLUEDO GLOBAL ---
+    const APP_VERSION = 'v1.3';
     
-    // Global/Classic Cluedo cards translated to official English
+    // Klasifikasi Kartu Bawaan Cluedo / Clue
     const SUSPECTS = [
       { id: 'scarlett', name: 'Miss Scarlett', color: 'bg-red-500' },
       { id: 'mustard', name: 'Colonel Mustard', color: 'bg-yellow-500' },
@@ -262,82 +262,80 @@
       { id: 'dining', name: 'Dining Room' }
     ];
 
-    // --- STATE MANAGEMENT ---
+    // Pilihan warna menarik untuk pemain
+    const COLOR_POOL = [
+      'bg-red-500 text-red-500 dark:text-red-400 border-red-400 dark:border-red-500',
+      'bg-orange-500 text-orange-500 dark:text-orange-400 border-orange-400 dark:border-orange-500',
+      'bg-amber-500 text-amber-500 dark:text-amber-400 border-amber-400 dark:border-amber-500',
+      'bg-emerald-500 text-emerald-500 dark:text-emerald-400 border-emerald-400 dark:border-emerald-500',
+      'bg-teal-500 text-teal-500 dark:text-teal-400 border-teal-400 dark:border-teal-500',
+      'bg-blue-500 text-blue-500 dark:text-blue-400 border-blue-400 dark:border-blue-500',
+      'bg-indigo-500 text-indigo-500 dark:text-indigo-400 border-indigo-400 dark:border-indigo-500',
+      'bg-purple-500 text-purple-500 dark:text-purple-400 border-purple-400 dark:border-purple-500',
+      'bg-pink-500 text-pink-500 dark:text-pink-400 border-pink-400 dark:border-pink-500',
+      'bg-rose-500 text-rose-500 dark:text-rose-400 border-rose-400 dark:border-rose-500'
+    ];
+
+    // --- MANAJEMEN STATE APLIKASI ---
     let state = {
-      players: ['You', 'Player 2', 'Player 3'],
+      // Sesuai permintaan: Default 4 Pemain
+      players: ['Anda', 'Pemain 2', 'Pemain 3', 'Pemain 4'],
+      playerColors: {}, // Berisi peta warna untuk tiap nama pemain
       notes: '',
-      // grid: { [item_id]: { [player_name]: status_value } }
-      // status_value: 0 = empty, 1 = Exclude/X, 2 = Has Card/✓, 3 = Unsure/?
       grid: {},
       darkMode: false
     };
 
-    // Load state from local storage
+    // Fungsi memberikan warna secara acak & unik untuk pemain
+    function assignPlayerColor(name) {
+      if (!state.playerColors) state.playerColors = {};
+      if (!state.playerColors[name]) {
+        const usedColors = Object.values(state.playerColors);
+        const availableColors = COLOR_POOL.filter(colorString => !usedColors.includes(colorString));
+        // Jika semua warna terpakai, reset pemilihan dari pool penuh
+        const pool = availableColors.length > 0 ? availableColors : COLOR_POOL;
+        const randomColor = pool[Math.floor(Math.random() * pool.length)];
+        state.playerColors[name] = randomColor;
+      }
+    }
+
+    // Fungsi memuat data lama dari penyimpanan peramban (Local Storage)
     function loadState() {
-      const saved = localStorage.getItem('cluedo_sheet_state_en');
+      const saved = localStorage.getItem('cluedo_sheet_state_v1.3');
       if (saved) {
         try {
           state = JSON.parse(saved);
         } catch (e) {
-          console.error("Failed to load saved state:", e);
+          console.error("Gagal membaca penyimpanan lokal:", e);
         }
       } else {
-        // Fallback or import old config if language was changed
-        const oldSaved = localStorage.getItem('cluedo_sheet_state');
-        if (oldSaved) {
-          try {
-            const oldState = JSON.parse(oldSaved);
-            state.darkMode = oldState.darkMode;
-            state.notes = oldState.notes;
-            // Map player titles if they were defaults
-            state.players = oldState.players.map(p => {
-              if (p === 'Pemain 1 (Anda)') return 'You';
-              if (p === 'Pemain 2') return 'Player 2';
-              if (p === 'Pemain 3') return 'Player 3';
-              return p;
-            });
-            resetGrid();
-            // Try matching grid states
-            Object.keys(oldState.grid).forEach(itemId => {
-              if (state.grid[itemId]) {
-                Object.keys(oldState.grid[itemId]).forEach(playerKey => {
-                  let mappedPlayer = playerKey;
-                  if (playerKey === 'Pemain 1 (Anda)') mappedPlayer = 'You';
-                  if (playerKey === 'Pemain 2') mappedPlayer = 'Player 2';
-                  if (playerKey === 'Pemain 3') mappedPlayer = 'Player 3';
-                  
-                  if (state.players.includes(mappedPlayer)) {
-                    state.grid[itemId][mappedPlayer] = oldState.grid[itemId][playerKey];
-                  }
-                });
-              }
-            });
-            saveState();
-          } catch(err) {
-            resetGrid();
-          }
-        } else {
-          resetGrid();
-        }
+        // Jalankan inisialisasi default
+        resetGrid();
       }
+
+      // Pastikan semua pemain terdaftar memiliki warna pelacak
+      state.players.forEach(p => {
+        assignPlayerColor(p);
+      });
     }
 
     function saveState() {
-      localStorage.setItem('cluedo_sheet_state_en', JSON.stringify(state));
+      localStorage.setItem('cluedo_sheet_state_v1.3', JSON.stringify(state));
     }
 
+    // Memulai ulang data grid menjadi kosong
     function resetGrid() {
       state.grid = {};
       const allItems = [...SUSPECTS, ...WEAPONS, ...ROOMS];
       allItems.forEach(item => {
         state.grid[item.id] = {};
         state.players.forEach(p => {
-          state.grid[item.id][p] = 0; // default empty
+          state.grid[item.id][p] = 0; // status kosong
         });
       });
     }
 
-    // --- CUSTOM ALERT ---
+    // --- FUNGSI PANEL ALERTI KUSTOM ---
     function showAlert(msg) {
       const alertBox = document.getElementById('customAlert');
       const alertMsg = document.getElementById('alertMessage');
@@ -352,57 +350,59 @@
       }, 2500);
     }
 
-    // --- INTEGRATION & RENDERING ---
+    // --- RENDERING TAMPILAN DINAMIS ---
     
+    // Merender baris daftar nama-nama pemain di bagian atas
     function renderPlayers() {
       const container = document.getElementById('playersList');
       container.innerHTML = '';
       
-      document.getElementById('playerCountLabel').textContent = `${state.players.length} Players`;
+      document.getElementById('playerCountLabel').textContent = `${state.players.length} Pemain`;
 
-      state.players.forEach((player, idx) => {
-        const isUser = idx === 0;
+      if (state.players.length === 0) {
+        container.innerHTML = `<span class="text-xs text-slate-400 italic">Belum ada pemain. Tambahkan di atas!</span>`;
+        return;
+      }
+
+      state.players.forEach((player) => {
+        const fullColorClass = state.playerColors[player] || COLOR_POOL[0];
+        const bgClass = fullColorClass.split(' ')[0]; // Ambil class background-nya saja
+
         const div = document.createElement('div');
-        div.className = `flex items-center space-x-1 px-2.5 py-1 rounded-full text-xs font-semibold shadow-sm ${
-          isUser 
-          ? 'bg-red-500 text-white' 
-          : 'bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200'
-        }`;
+        div.className = `flex items-center space-x-1 px-2.5 py-1 rounded-full text-xs font-bold shadow-sm bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-600`;
         
         div.innerHTML = `
-          <span class="truncate max-w-[100px]">${player}</span>
-          ${!isUser ? `
-            <button onclick="removePlayer('${player}')" class="text-slate-400 hover:text-red-500 ml-1 font-extrabold focus:outline-none">
-              &times;
-            </button>
-          ` : ''}
+          <span class="w-2 h-2 rounded-full ${bgClass} inline-block shrink-0"></span>
+          <span class="truncate max-w-[100px] ml-1">${player}</span>
+          <!-- Tombol Hapus: Sekarang siapa saja dapat dihapus tanpa batas -->
+          <button onclick="removePlayer('${player}')" class="text-slate-400 hover:text-red-500 ml-1.5 font-bold focus:outline-none text-sm transition" title="Hapus Pemain">
+            &times;
+          </button>
         `;
         container.appendChild(div);
       });
     }
 
     function getNextStatus(current) {
-      // Rotation: 0 (empty) -> 1 (exclude/X) -> 2 (has card/✓) -> 3 (unsure/?) -> 0 (empty)
+      // Siklus status: 0 (Kosong) -> 1 (Eliminasi/X) -> 2 (Ada/✓) -> 3 (Ragu/?) -> kembali ke 0
       return (current + 1) % 4;
     }
 
     function getStatusCellHTML(statusValue) {
       switch (statusValue) {
-        case 1: // Exclude (X)
+        case 1: // Silang (X)
           return `<div class="w-7 h-7 rounded-lg bg-red-100 dark:bg-red-950/40 border border-red-300 dark:border-red-900/60 flex items-center justify-center text-red-600 dark:text-red-400 text-xs font-black shadow-inner">X</div>`;
-        case 2: // Has Card (✓)
+        case 2: // Centang (✓)
           return `<div class="w-7 h-7 rounded-lg bg-green-100 dark:bg-green-950/40 border border-green-300 dark:border-green-900/60 flex items-center justify-center text-green-600 dark:text-green-400 text-xs font-black shadow-inner">✓</div>`;
-        case 3: // Unsure (?)
+        case 3: // Tanda Tanya (?)
           return `<div class="w-7 h-7 rounded-lg bg-amber-100 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-900/60 flex items-center justify-center text-amber-600 dark:text-amber-400 text-xs font-black shadow-inner">?</div>`;
-        default: // Empty (-)
+        default: // Kosong (-)
           return `<div class="w-7 h-7 rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-center text-slate-300 dark:text-slate-600 text-xs">-</div>`;
       }
     }
 
-    // Check if item is eliminated globally
+    // Deteksi jika kartu ini sudah tidak mungkin di dalam amplop misteri
     function isItemEliminated(itemId) {
-      // It is eliminated if any opponent has been confirmed to HAVE the card (status ✓ or 2)
-      // OR if we have confirmed it's in our own hand
       let hasIt = false;
       state.players.forEach(player => {
         if (state.grid[itemId]?.[player] === 2) {
@@ -410,6 +410,11 @@
         }
       });
       return hasIt;
+    }
+
+    // Memotong nama agar pas di atas kolom checkbox mini
+    function getShortName(name) {
+      return name.slice(0, 4) + (name.length > 4 ? '.' : '');
     }
 
     function renderItemRow(item, isSuspect = false) {
@@ -422,7 +427,7 @@
 
       let rowHTML = `
         <div class="flex items-center justify-between p-3 transition duration-150 ${eliminated ? 'bg-slate-100/50 dark:bg-slate-850/50 opacity-40' : 'hover:bg-slate-50/50 dark:hover:bg-slate-750/30'}">
-          <!-- Item Name -->
+          <!-- Info Nama Kartu -->
           <div class="flex items-center min-w-0 pr-2">
             ${badgeHTML}
             <span class="text-sm font-bold truncate ${eliminated ? 'line-through text-slate-400 dark:text-slate-500' : 'text-slate-800 dark:text-slate-200'}">
@@ -430,20 +435,32 @@
             </span>
           </div>
 
-          <!-- Player columns status -->
-          <div class="flex items-center space-x-1.5 overflow-x-auto shrink-0 py-0.5">
+          <!-- Bagian Kolom Checkbox Pemain -->
+          <div class="flex items-center space-x-2 overflow-x-auto shrink-0 py-0.5">
       `;
 
       state.players.forEach(player => {
         const currentVal = state.grid[item.id]?.[player] || 0;
+        const shortName = getShortName(player);
+        const playerColorClass = state.playerColors[player] || COLOR_POOL[0];
+        
+        // Memisahkan warna teks/border saja dari class warna player
+        const textAndBorderColor = playerColorClass.split(' ').slice(1).join(' ');
+
         rowHTML += `
-          <button 
-            onclick="cycleStatus('${item.id}', '${player}')" 
-            class="focus:outline-none transition-transform duration-100 hover:scale-105 active:scale-95" 
-            title="Click to toggle status for ${player} on ${item.name}"
-          >
-            ${getStatusCellHTML(currentVal)}
-          </button>
+          <div class="flex flex-col items-center">
+            <!-- Penanda Nama & Warna Unik di Atas Checkbox -->
+            <span class="text-[9px] font-bold select-none pb-0.5 max-w-[32px] truncate ${textAndBorderColor}" title="${player}">
+              ${shortName}
+            </span>
+            <button 
+              onclick="cycleStatus('${item.id}', '${player}')" 
+              class="focus:outline-none transition-transform duration-100 hover:scale-105 active:scale-95" 
+              title="Ketuk untuk ubah status ${player} pada ${item.name}"
+            >
+              ${getStatusCellHTML(currentVal)}
+            </button>
+          </div>
         `;
       });
 
@@ -455,23 +472,86 @@
     }
 
     function renderAllSheets() {
-      // 1. Suspects
+      const sheetContent = document.getElementById('sheetContent');
+      
+      // Jika tidak ada pemain sama sekali, sembunyikan lembar dan minta tambah pemain
+      if (state.players.length === 0) {
+        sheetContent.innerHTML = `
+          <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-md border border-slate-200 dark:border-slate-700 p-8 text-center">
+            <div class="bg-red-50 dark:bg-red-950/20 text-red-600 dark:text-red-400 p-4 rounded-full w-16 h-16 mx-auto flex items-center justify-center mb-4">
+              <i data-lucide="users" class="w-8 h-8"></i>
+            </div>
+            <h3 class="font-extrabold text-lg mb-2">Belum ada pemain!</h3>
+            <p class="text-sm text-slate-500 dark:text-slate-400">
+              Silakan ketik nama pemain di daftar atas terlebih dahulu untuk memulai tabel penyelidikan Cluedo Anda.
+            </p>
+          </div>
+        `;
+        // Segarkan Lucide Icons
+        lucide.createIcons();
+        updateAccusation();
+        return;
+      }
+
+      // Kembalikan layout standard
+      sheetContent.innerHTML = `
+        <!-- 1. TERSANGKA -->
+        <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-md border border-slate-200 dark:border-slate-700 overflow-hidden">
+          <div class="bg-gradient-to-r from-red-600 to-red-700 dark:from-red-900/60 dark:to-red-850/60 px-4 py-3 text-white flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+              <i data-lucide="users" class="w-5 h-5"></i>
+              <h3 class="font-bold tracking-wide">Tersangka</h3>
+            </div>
+            <span class="text-xs bg-black/20 px-2 py-0.5 rounded-full font-mono">6 Kartu</span>
+          </div>
+          <div class="divide-y divide-slate-100 dark:divide-slate-700/50" id="suspectsList"></div>
+        </div>
+
+        <!-- 2. SENJATA -->
+        <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-md border border-slate-200 dark:border-slate-700 overflow-hidden">
+          <div class="bg-gradient-to-r from-amber-600 to-amber-700 dark:from-amber-900/60 dark:to-amber-850/60 px-4 py-3 text-white flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+              <i data-lucide="shield-alert" class="w-5 h-5"></i>
+              <h3 class="font-bold tracking-wide">Senjata</h3>
+            </div>
+            <span class="text-xs bg-black/20 px-2 py-0.5 rounded-full font-mono">6 Kartu</span>
+          </div>
+          <div class="divide-y divide-slate-100 dark:divide-slate-700/50" id="weaponsList"></div>
+        </div>
+
+        <!-- 3. RUANGAN -->
+        <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-md border border-slate-200 dark:border-slate-700 overflow-hidden">
+          <div class="bg-gradient-to-r from-blue-600 to-blue-700 dark:from-blue-900/60 dark:to-blue-850/60 px-4 py-3 text-white flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+              <i data-lucide="map-pin" class="w-5 h-5"></i>
+              <h3 class="font-bold tracking-wide">Ruangan</h3>
+            </div>
+            <span class="text-xs bg-black/20 px-2 py-0.5 rounded-full font-mono">9 Kartu</span>
+          </div>
+          <div class="divide-y divide-slate-100 dark:divide-slate-700/50" id="roomsList"></div>
+        </div>
+      `;
+
+      // 1. Render Tersangka
       const suspectsContainer = document.getElementById('suspectsList');
       suspectsContainer.innerHTML = SUSPECTS.map(item => renderItemRow(item, true)).join('');
 
-      // 2. Weapons
+      // 2. Render Senjata
       const weaponsContainer = document.getElementById('weaponsList');
       weaponsContainer.innerHTML = WEAPONS.map(item => renderItemRow(item, false)).join('');
 
-      // 3. Rooms
+      // 3. Render Ruangan
       const roomsContainer = document.getElementById('roomsList');
       roomsContainer.innerHTML = ROOMS.map(item => renderItemRow(item, false)).join('');
 
-      // Update bottom panel summary
+      // Segarkan Lucide Icons
+      lucide.createIcons();
+
+      // Perbarui panel ringkasan tuduhan
       updateAccusation();
     }
 
-    // Toggle cycle values on click
+    // Melakukan rotasi status kotak ketika ditekan
     window.cycleStatus = function(itemId, player) {
       if (!state.grid[itemId]) state.grid[itemId] = {};
       const current = state.grid[itemId][player] || 0;
@@ -481,7 +561,7 @@
       renderAllSheets();
     };
 
-    // --- PLAYER MANAGEMENT ---
+    // --- MANAJEMEN DATA PEMAIN ---
     
     document.getElementById('addPlayerBtn').addEventListener('click', addPlayer);
     document.getElementById('playerNameInput').addEventListener('keypress', function(e) {
@@ -494,17 +574,20 @@
       
       if (!name) return;
       if (state.players.includes(name)) {
-        showAlert('Player name already exists!');
+        showAlert('Nama pemain sudah terdaftar!');
         return;
       }
       if (state.players.length >= 8) {
-        showAlert('Maximum 8 players supported.');
+        showAlert('Maksimum hanya dapat menampung 8 pemain.');
         return;
       }
 
       state.players.push(name);
       
-      // Initialize column space for all items
+      // Pilih warna acak unik untuk pemain baru ini
+      assignPlayerColor(name);
+      
+      // Inisialisasi kolom baru di dalam struktur grid semua kartu
       const allItems = [...SUSPECTS, ...WEAPONS, ...ROOMS];
       allItems.forEach(item => {
         if (!state.grid[item.id]) state.grid[item.id] = {};
@@ -515,17 +598,19 @@
       saveState();
       renderPlayers();
       renderAllSheets();
-      showAlert(`Added ${name}`);
+      showAlert(`Pemain "${name}" berhasil ditambahkan!`);
     }
 
+    // Bebas menghapus semua pemain tanpa terkecuali
     window.removePlayer = function(name) {
-      if (name === state.players[0]) {
-        showAlert('You cannot remove yourself!');
-        return;
-      }
       state.players = state.players.filter(p => p !== name);
       
-      // Cleanup values
+      // Bersihkan warna pelacaknya
+      if (state.playerColors) {
+        delete state.playerColors[name];
+      }
+
+      // Bersihkan data lama pemain yang bersangkutan dari grid
       const allItems = [...SUSPECTS, ...WEAPONS, ...ROOMS];
       allItems.forEach(item => {
         if (state.grid[item.id]) {
@@ -536,12 +621,15 @@
       saveState();
       renderPlayers();
       renderAllSheets();
+      showAlert(`Pemain "${name}" berhasil dihapus.`);
     };
 
-    // --- DEDUCTION ENGINE ---
+    // --- INTEGRASI MESIN DEDUKSI OTOMATIS ---
     
     function getSolutionCandidate(list) {
-      // Candidate must not be owned by anyone (no player has status 'Has Card' / 2)
+      if (state.players.length === 0) return null;
+
+      // Temukan kartu yang tidak dimiliki siapa pun (tidak memiliki tanda ✓ atau status 2)
       const unOwned = list.filter(item => {
         let isOwnedByAnyone = false;
         state.players.forEach(player => {
@@ -552,12 +640,11 @@
         return !isOwnedByAnyone;
       });
 
-      // If only one card is absolutely unowned, that is the winner
       if (unOwned.length === 1) {
         return unOwned[0];
       }
       
-      // Fallback: Check if marked X (Excluded) for ALL players
+      // Kasus alternatif: Temukan kartu yang dicoret (tanda X / status 1) di seluruh pemain
       const fullyEliminated = list.filter(item => {
         let isXForAll = true;
         state.players.forEach(player => {
@@ -586,24 +673,34 @@
       let weaponsLeft = WEAPONS.filter(w => !isItemEliminated(w.id)).map(w => w.name);
       let roomsLeft = ROOMS.filter(r => !isItemEliminated(r.id)).map(r => r.name);
 
+      if (state.players.length === 0) {
+        summaryText.textContent = "Tambahkan pemain terlebih dahulu...";
+        summaryText.className = "text-sm font-semibold text-slate-400 dark:text-slate-500 truncate max-w-[280px]";
+        return;
+      }
+
       if (suspect && weapon && room) {
         summaryText.textContent = `${suspect.name} • ${weapon.name} • ${room.name}`;
         summaryText.className = "text-sm font-black text-green-600 dark:text-green-400 truncate max-w-[280px] animate-pulse";
       } else {
-        summaryText.textContent = `Left: ${suspectsLeft.length} Suspects, ${weaponsLeft.length} Weapons, ${roomsLeft.length} Rooms`;
+        summaryText.textContent = `Tersisa: ${suspectsLeft.length} Tersangka, ${weaponsLeft.length} Senjata, ${roomsLeft.length} Ruang`;
         summaryText.className = "text-sm font-semibold text-slate-500 dark:text-slate-400 truncate max-w-[280px]";
       }
 
-      // Fill in Accusation modal
-      document.getElementById('suspectAccuse').textContent = suspect ? suspect.name : `Unresolved (${suspectsLeft.length} options remaining)`;
-      document.getElementById('weaponAccuse').textContent = weapon ? weapon.name : `Unresolved (${weaponsLeft.length} options remaining)`;
-      document.getElementById('roomAccuse').textContent = room ? room.name : `Unresolved (${roomsLeft.length} options remaining)`;
+      // Isi ke modal lembar tuduhan akhir
+      document.getElementById('suspectAccuse').textContent = suspect ? suspect.name : `Belum pasti (${suspectsLeft.length} kemungkinan)`;
+      document.getElementById('weaponAccuse').textContent = weapon ? weapon.name : `Belum pasti (${weaponsLeft.length} kemungkinan)`;
+      document.getElementById('roomAccuse').textContent = room ? room.name : `Belum pasti (${roomsLeft.length} kemungkinan)`;
     }
 
-    // --- ACCUSATION MODAL HANDLERS ---
+    // --- MODAL TUDUHAN AKHIR ---
     const modal = document.getElementById('accuseModal');
     
     document.getElementById('showAccuseBtn').addEventListener('click', () => {
+      if (state.players.length === 0) {
+        showAlert("Silakan tambahkan pemain sebelum membuat tuduhan!");
+        return;
+      }
       modal.classList.remove('hidden');
       setTimeout(() => {
         modal.firstElementChild.classList.remove('scale-95', 'opacity-0');
@@ -623,11 +720,11 @@
     document.getElementById('closeModalBtn2').addEventListener('click', closeModal);
     
     document.getElementById('confirmAccuseBtn').addEventListener('click', () => {
-      showAlert("Good luck with your final accusation!");
+      showAlert("Semoga tuduhan akhir Anda benar! Selamat bermain!");
       closeModal();
     });
 
-    // --- CUSTOM CONFIRMATION DIALOG (FOR RESET) ---
+    // --- MODAL KONFIRMASI RESET KUSTOM ---
     const confirmModal = document.getElementById('confirmModal');
     let confirmCallback = null;
 
@@ -655,26 +752,26 @@
       closeConfirmModal();
     });
 
-    // Trigger custom reset confirmation
+    // Pemicu Atur Ulang data detektif
     document.getElementById('resetBtn').addEventListener('click', () => {
-      showCustomConfirm("Are you sure you want to erase all your investigation data and start a new game?", () => {
+      showCustomConfirm("Apakah Anda yakin ingin menghapus semua catatan dan memulai lembar detektif Cluedo yang baru?", () => {
         resetGrid();
         state.notes = '';
         document.getElementById('caseNotes').value = '';
         saveState();
         renderAllSheets();
-        showAlert("All notes and grids have been cleared successfully!");
+        showAlert("Seluruh catatan penyelidikan berhasil dibersihkan!");
       });
     });
 
-    // --- FREE INVESTIGATION NOTES ---
+    // --- REAKSI CATATAN BEBAS ---
     const notesArea = document.getElementById('caseNotes');
     notesArea.addEventListener('input', (e) => {
       state.notes = e.target.value;
       saveState();
     });
 
-    // --- DARK / LIGHT THEME ---
+    // --- MANAJEMEN TEMA TAMPILAN ---
     const themeToggleBtn = document.getElementById('themeToggle');
     const themeIcon = document.getElementById('themeIcon');
 
@@ -686,7 +783,6 @@
         document.documentElement.classList.remove('dark');
         themeIcon.setAttribute('data-lucide', 'moon');
       }
-      // Re-render Lucide icons safely
       lucide.createIcons();
     }
 
@@ -696,7 +792,7 @@
       applyTheme();
     });
 
-    // --- INITIALIZATION ---
+    // --- INISIALISASI HALAMAN SAAT DIMUAT ---
     window.onload = function() {
       loadState();
       
